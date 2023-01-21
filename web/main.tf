@@ -7,9 +7,20 @@ resource "aws_lb" "front-lb" {
   ip_address_type = "ip4"
 }
 
-resource "aws_lb " "internal_lb" {
-  name = var.internal_lb
-  internal = true
-  load_balancer_type = "network"
-  subnets = ["aws_subnet.app-subnet01.id", "aws_subnet.app-subnet02.id"]
+resource "aws_launch_template" "web_lt" {
+  name_prefix = var.web_lt_name_prefix
+  image_id = var.image_id
+  instance_type = var.instance_type
+}
+
+resource "aws_autoscaling_group" "web_asg" {
+  availability_zones = var.web_availabily_zones
+  desired_capacity = var.web_desired_capacity
+  max_size = var.web_max_size
+  min_size = var.web_min_size
+
+  launch_template {
+    id = aws_launch_template.web_lt.id
+    version = "$Latest"
+  }
 }
