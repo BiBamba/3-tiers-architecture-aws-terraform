@@ -1,10 +1,42 @@
-resource "aws_lb" "front-lb" {
-  name = var.front-alb
+resource "aws_lb" "front_lb" {
+  name = var.front-lb
   internal = false
   load_balancer_type = "application"
   security_groups = [aws_security_group.alb_sg.id]
   subnets = ["aws_subnet.web-subnet01.id", "aws_subnet.web-subnet02.id"]
   ip_address_type = "ip4"
+}
+
+resource "aws_lb_target_group" "front_lb_tgrp" {
+  name = var.front_lb_tgrp
+  target_type = "alb"
+  port = "80"
+  protocol = "HTTP"
+  vpc_id = aws_vpc.main.id
+}
+
+resource "aws_lb_listener " "front_lb_listener" {
+  load_balancer_arn = aws_lb.front_lb.arn
+  port = 80
+  protocol = "HTTP"
+
+  default_action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.front_lb_tgrp.arn
+  }
+}
+
+resource "aws_lb_listener" "https_front_lb_listener" {
+  load_balancer_arn = aws_lb.front_lb.arn
+  port = 443
+  protocol = "HTTPS"
+  ssl_policy = var.front_lb_ssl_policy
+  certificate_arn = var.front_lb_certificate_arn
+
+  default_action {
+    type = "forward"
+    target_group_arn =aws_lb_target_group.front_lb_tgrp.arn
+  }
 }
 
 resource "aws_launch_template" "web_lt" {
