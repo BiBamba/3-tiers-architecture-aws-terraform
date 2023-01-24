@@ -43,5 +43,5 @@ resource "aws_autoscaling_group" "web_asg" {
     version = "$Latest"
   }
 
-  target_group_arns = aws_lb_target_group.front_lb_tgrp.arn
+  target_group_arns = ["aws_lb_target_group.front_lb_tgrp.arn"]
 }
