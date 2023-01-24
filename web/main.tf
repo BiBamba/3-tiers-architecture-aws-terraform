@@ -3,7 +3,7 @@ resource "aws_lb" "front_lb" {
   internal = false
   load_balancer_type = "application"
   security_groups = [aws_security_group.alb_sg.id]
-  subnets = ["aws_subnet.web-subnet01.id", "aws_subnet.web-subnet02.id"]
+  subnets = ["aws_subnet.pub-subnet01.id", "aws_subnet.pub-subnet02.id"]
   ip_address_type = "ip4"
 }
 
@@ -26,19 +26,6 @@ resource "aws_lb_listener " "front_lb_listener" {
   }
 }
 
-resource "aws_lb_listener" "https_front_lb_listener" {
-  load_balancer_arn = aws_lb.front_lb.arn
-  port = 443
-  protocol = "HTTPS"
-  ssl_policy = var.front_lb_ssl_policy
-  certificate_arn = var.front_lb_certificate_arn
-
-  default_action {
-    type = "forward"
-    target_group_arn =aws_lb_target_group.front_lb_tgrp.arn
-  }
-}
-
 resource "aws_launch_template" "web_lt" {
   name_prefix = var.web_lt_name_prefix
   image_id = var.image_id
@@ -55,4 +42,6 @@ resource "aws_autoscaling_group" "web_asg" {
     id = aws_launch_template.web_lt.id
     version = "$Latest"
   }
+
+  target_group_arns = aws_lb_target_group.front_lb_tgrp.arn
 }
