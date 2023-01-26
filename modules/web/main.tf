@@ -9,7 +9,7 @@ resource "aws_lb" "front_lb" {
 
 resource "aws_lb_target_group" "front_lb_tgrp" {
   name = var.front_lb_tgrp
-  target_type = "alb"
+  target_type = "instance"
   port = "80"
   protocol = "HTTP"
   vpc_id = aws_vpc.main.id
@@ -30,6 +30,7 @@ resource "aws_launch_template" "web_lt" {
   name_prefix = var.web_lt_name_prefix
   image_id = var.image_id
   instance_type = var.instance_type
+  vpc_security_group_ids = ["${var.web_lt_sg}"]
 }
 
 resource "aws_autoscaling_group" "web_asg" {
