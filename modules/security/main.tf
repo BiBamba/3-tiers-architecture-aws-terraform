@@ -1,4 +1,4 @@
-resource "aws_security_group" "alb_sg" {
+resource "aws_security_group" "front_elb_sg" {
   name = var.alb_name
   vpc_id = aws_vpc.main.id
 
@@ -16,3 +16,16 @@ resource "aws_security_group" "alb_sg" {
     cidr_blocks = "${var.allowed_cidr_blocks}"
   }
 }
+
+resource "aws_security_group" "client_servers_sg" {
+  name = var.client_servers_sg
+  vpc_id = main_vpc_id
+
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    security_groups = [ "front_elb_sg_id" ]
+  }
+}
+
