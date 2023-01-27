@@ -2,8 +2,8 @@ resource "aws_lb" "front_lb" {
   name = var.front-lb
   internal = false
   load_balancer_type = "application"
-  security_groups = [aws_security_group.alb_sg.id]
-  subnets = ["aws_subnet.pub-subnet01.id", "aws_subnet.pub-subnet02.id"]
+  security_groups = ["front_elb_sg_id"]
+  subnets = ["public_subnet01_id", "public_subnet02_id"]
   ip_address_type = "ip4"
 }
 
@@ -12,7 +12,7 @@ resource "aws_lb_target_group" "front_lb_tgrp" {
   target_type = "instance"
   port = "80"
   protocol = "HTTP"
-  vpc_id = aws_vpc.main.id
+  vpc_id = main_vpc_id
 }
 
 resource "aws_lb_listener " "front_lb_listener" {
@@ -30,7 +30,7 @@ resource "aws_launch_template" "web_lt" {
   name_prefix = var.web_lt_name_prefix
   image_id = var.image_id
   instance_type = var.instance_type
-  vpc_security_group_ids = ["${var.web_lt_sg}"]
+  vpc_security_group_ids = ["client_servers_sg_id"]
 }
 
 resource "aws_autoscaling_group" "web_asg" {
