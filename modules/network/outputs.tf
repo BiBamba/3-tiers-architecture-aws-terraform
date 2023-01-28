@@ -18,7 +18,7 @@ output "public_subnet01_id" {
   value = aws_subnet.public-subnet01.id
 }
 
-output "public_subnet01_id" {
+output "public_subnet02_id" {
   description = "The ID of the public subnet in the availability zone 2"
   value = aws_subnet.public-subnet02
 }
