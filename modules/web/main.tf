@@ -1,5 +1,5 @@
 resource "aws_lb" "front_lb" {
-  name = var.front-lb
+  name = var.front_lb
   internal = false
   load_balancer_type = "application"
   security_groups = ["front_elb_sg_id"]
@@ -17,7 +17,7 @@ resource "aws_lb_target_group" "front_lb_tgrp" {
 
 resource "aws_lb_listener " "front_lb_listener" {
   load_balancer_arn = aws_lb.front_lb.arn
-  port = 80
+  port = "80"
   protocol = "HTTP"
 
   default_action {
