@@ -1,4 +1,4 @@
-variable "front-lb" {}
+variable "front_lb" {}
 variable "front_lb_tgrp" {}
 variable "web_lt_name_prefix" {}
 variable "image_id" {}
