@@ -1,5 +1,5 @@
 resource "aws_lb" "front_lb" {
-  name = var.front_lb
+  name = var.front_lb_name
   internal = false
   load_balancer_type = "application"
   security_groups = ["front_elb_sg_id"]
@@ -8,14 +8,13 @@ resource "aws_lb" "front_lb" {
 }
 
 resource "aws_lb_target_group" "front_lb_tgrp" {
-  name = var.front_lb_tgrp
   target_type = "instance"
   port = "80"
   protocol = "HTTP"
   vpc_id = main_vpc_id
 }
 
-resource "aws_lb_listener " "front_lb_listener" {
+resource "aws_lb_listener" "front_lb_listener" {
   load_balancer_arn = aws_lb.front_lb.arn
   port = "80"
   protocol = "HTTP"

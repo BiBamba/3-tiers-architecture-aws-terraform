@@ -1,6 +1,5 @@
-variable "front_lb" {}
-variable "front_lb_tgrp" {}
-variable "web_lt_name_prefix" {}
+variable "front_lb_name" {}
+variable "front_lb_tgrp_name" {}
 variable "image_id" {}
 variable "instance_type" {}
 variable "web_availabily_zones" {}

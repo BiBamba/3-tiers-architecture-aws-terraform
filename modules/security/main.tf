@@ -1,6 +1,10 @@
+module "network" {
+  source = "../../modules/network"
+}
+
 resource "aws_security_group" "front_elb_sg" {
-  name = var.alb_name
-  vpc_id = aws_vpc.main.id
+  name = var.alb_sg_name
+  vpc_id = main_vpc_id
 
   ingress {
     from_port = 443
