@@ -13,6 +13,12 @@ provider "aws" {
 
 module "network" {
   source = "./modules/network"
+
+  vpc_cidr_block = var.vpc_cidr_block
+  private_subnet01_cidr_block = var.private_subnet01_cidr_block
+  private_subnet02_cidr_block = var.private_subnet02_cidr_block
+  public_subnet01_cidr_block = var.public_subnet01_cidr_block
+  public_subnet02_cidr_block = var.public_subnet02_cidr_block
 }
 
 module "security" {
@@ -22,9 +28,8 @@ module "security" {
 module "web" {
   source = "./modules/web"
 
-  front_lb = var.alb_name
-  front_lb_tgrp = var.alb_tgrp_name
-  web_lt_name_prefix = var.alb_launch_template_prefix
+  front_lb_name = var.alb_name
+  front_lb_tgrp_name = var.alb_tgrp_name
   image_id = var.image_id
   instance_type = var.instance_type
   web_availabily_zones = var.availability_zones
