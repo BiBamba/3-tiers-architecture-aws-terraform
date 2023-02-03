@@ -23,11 +23,15 @@ module "network" {
 
 module "security" {
   source = "./modules/security"
+
+  vpc_id = module.network.main_vpc_id
+  front_elb_sg_id = module.web.front_lb_id
 }
 
 module "web" {
   source = "./modules/web"
 
+  vpc_id = module.network.main_vpc_id
   front_lb_name = var.alb_name
   front_lb_tgrp_name = var.alb_tgrp_name
   image_id = var.image_id
