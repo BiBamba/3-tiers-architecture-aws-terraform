@@ -1,3 +1,4 @@
+variable "vpc_id" {}
 variable "front_lb_name" {}
 variable "front_lb_tgrp_name" {}
 variable "image_id" {}
@@ -6,3 +7,6 @@ variable "web_availabily_zones" {}
 variable "web_desired_capacity" {}
 variable "web_max_size" {}
 variable "web_min_size" {}
+variable "web_lt_name_prefix" {
+  default = "web"
+}

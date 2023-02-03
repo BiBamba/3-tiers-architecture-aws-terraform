@@ -1,3 +1,8 @@
+
+variable "vpc_id" {}
+
+variable "front_elb_sg_id" {}
+
 variable "allowed_cidr_blocks" {
     default = ["0.0.0.0/0"]
 }

@@ -4,14 +4,14 @@ resource "aws_lb" "front_lb" {
   load_balancer_type = "application"
   security_groups = ["front_elb_sg_id"]
   subnets = ["public_subnet01_id", "public_subnet02_id"]
-  ip_address_type = "ip4"
+  ip_address_type = "ipv4"
 }
 
 resource "aws_lb_target_group" "front_lb_tgrp" {
   target_type = "instance"
   port = "80"
   protocol = "HTTP"
-  vpc_id = main_vpc_id
+  vpc_id = var.vpc_id
 }
 
 resource "aws_lb_listener" "front_lb_listener" {

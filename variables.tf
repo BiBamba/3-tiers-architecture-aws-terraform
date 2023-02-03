@@ -1,5 +1,5 @@
 variable "alb_name" {
-  default = "test_alb"
+  default = "test-alb"
 }
 
 variable "alb_tgrp_name" {
