@@ -29,7 +29,7 @@ resource "aws_launch_template" "web_lt" {
   name_prefix = var.web_lt_name_prefix
   image_id = var.image_id
   instance_type = var.instance_type
-  vpc_security_group_ids = ["${var.web_lt_sg}"]
+  vpc_security_group_ids = ["${var.web_lt_sg_id}"]
 }
 
 resource "aws_autoscaling_group" "web_asg" {

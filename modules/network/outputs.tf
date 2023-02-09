@@ -20,5 +20,5 @@ output "public_subnet01_id" {
 
 output "public_subnet02_id" {
   description = "The ID of the public subnet in the availability zone 2"
-  value = aws_subnet.public_subnet02
+  value = aws_subnet.public_subnet02.id
 }

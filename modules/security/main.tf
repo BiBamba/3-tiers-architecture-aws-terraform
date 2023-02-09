@@ -25,7 +25,7 @@ resource "aws_security_group" "client_servers_sg" {
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    security_groups = [ "${var.front_elb_sg_id}" ]
+    security_groups = ["${aws_security_group.front_elb_sg.id}"]
   }
 }
 

@@ -19,6 +19,8 @@ module "network" {
   private_subnet02_cidr_block = var.private_subnet02_cidr_block
   public_subnet01_cidr_block = var.public_subnet01_cidr_block
   public_subnet02_cidr_block = var.public_subnet02_cidr_block
+  availability_zone_01 = var.availability_zones_01
+  availability_zone_02 = var.availability_zones_02
 }
 
 module "security" {
@@ -40,4 +42,8 @@ module "web" {
   web_desired_capacity = var.desired_number
   web_max_size = var.max_number
   web_min_size = var.min_number
+  client_servers_sg_id = module.security.client_servers_sg_id
+  front_elb_sg_id = module.security.front_elb_sg_id
+  public_subnet01_id = module.network.public_subnet01_id
+  public_subnet02_id = module.network.public_subnet02_id
 }

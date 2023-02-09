@@ -10,3 +10,7 @@ variable "web_min_size" {}
 variable "web_lt_name_prefix" {
   default = "web"
 }
+variable "front_elb_sg_id" {}
+variable "client_servers_sg_id" {}
+variable "public_subnet01_id" {}
+variable "public_subnet02_id" {}

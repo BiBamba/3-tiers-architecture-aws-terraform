@@ -53,3 +53,11 @@ variable "public_subnet01_cidr_block" {
 variable "public_subnet02_cidr_block" {
     default = "10.0.4.0/24"
 }
+
+variable "availability_zones_01" {
+  default = "us-east-1a"
+}
+
+variable "availability_zones_02" {
+  default = "us-east-1b"
+}

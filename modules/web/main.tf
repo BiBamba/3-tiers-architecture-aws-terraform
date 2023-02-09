@@ -2,8 +2,8 @@ resource "aws_lb" "front_lb" {
   name = var.front_lb_name
   internal = false
   load_balancer_type = "application"
-  security_groups = ["front_elb_sg_id"]
-  subnets = ["public_subnet01_id", "public_subnet02_id"]
+  security_groups = ["${var.front_elb_sg_id}"]
+  subnets = ["${var.public_subnet01_id}", "${var.public_subnet02_id}"]
   ip_address_type = "ipv4"
 }
 
@@ -29,7 +29,7 @@ resource "aws_launch_template" "web_lt" {
   name_prefix = var.web_lt_name_prefix
   image_id = var.image_id
   instance_type = var.instance_type
-  vpc_security_group_ids = ["client_servers_sg_id"]
+  vpc_security_group_ids = ["${var.client_servers_sg_id}"]
 }
 
 resource "aws_autoscaling_group" "web_asg" {

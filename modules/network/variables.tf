@@ -17,3 +17,6 @@ variable "public_subnet01_cidr_block" {
 variable "public_subnet02_cidr_block" {
   description = "This is the CIDR Block of the public Subnet in zone 2 "
 }
+
+variable "availability_zone_01" {}
+variable "availability_zone_02" {}

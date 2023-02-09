@@ -6,3 +6,4 @@ variable "app_availability_zones" {}
 variable "app_desired_capacity" {}
 variable "app_max_size" {}
 variable "app_min_size" {}
+variable "web_lt_sg_id" {}
