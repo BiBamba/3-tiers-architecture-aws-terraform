@@ -14,3 +14,5 @@ variable "front_elb_sg_id" {}
 variable "client_servers_sg_id" {}
 variable "public_subnet01_id" {}
 variable "public_subnet02_id" {}
+variable "private_subnet01_id" {}
+variable "private_subnet02_id" {}
