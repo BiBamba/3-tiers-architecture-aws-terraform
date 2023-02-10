@@ -1,4 +1,4 @@
-resource "aws_lb" "internal_lb" {
+/*resource "aws_lb" "internal_lb" {
   name = var.internal_lb
   internal = true
   load_balancer_type = "network"
@@ -44,4 +44,4 @@ resource "aws_autoscaling_group" "web_asg" {
   }
 
   target_group_arns = ["aws_lb_target_group.front_lb_tgrp.arn"]
-}
+}*/
