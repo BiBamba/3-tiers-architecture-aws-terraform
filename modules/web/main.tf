@@ -8,7 +8,7 @@ resource "aws_lb" "front_lb" {
 }
 
 resource "aws_lb_target_group" "front_lb_tgrp" {
-  target_type = "instance"
+  name = "front-lb-tgrp"
   port = "80"
   protocol = "HTTP"
   vpc_id = var.vpc_id
@@ -27,13 +27,15 @@ resource "aws_lb_listener" "front_lb_listener" {
 
 resource "aws_launch_template" "web_lt" {
   name_prefix = var.web_lt_name_prefix
+  description = "Launch Template for Frontend"
   image_id = var.image_id
   instance_type = var.instance_type
+  //key_name = "bbtlab-key"
   vpc_security_group_ids = ["${var.client_servers_sg_id}"]
 }
 
 resource "aws_autoscaling_group" "web_asg" {
-  availability_zones = var.web_availabily_zones
+  //availability_zones = var.web_availabily_zones
   desired_capacity = var.web_desired_capacity
   max_size = var.web_max_size
   min_size = var.web_min_size
@@ -43,5 +45,7 @@ resource "aws_autoscaling_group" "web_asg" {
     version = "$Latest"
   }
 
-  target_group_arns = ["aws_lb_target_group.front_lb_tgrp.arn"]
+  vpc_zone_identifier = ["${var.private_subnet01_id}", "${var.private_subnet02_id}"]
+
+  target_group_arns = [aws_lb_target_group.front_lb_tgrp.arn]
 }
