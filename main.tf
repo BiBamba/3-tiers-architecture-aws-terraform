@@ -34,6 +34,8 @@ module "web" {
   source = "./modules/web"
 
   vpc_id = module.network.main_vpc_id
+  private_subnet01_id = module.network.private_subnet01_id
+  private_subnet02_id = module.network.private_subnet02_id
   front_lb_name = var.alb_name
   front_lb_tgrp_name = var.alb_tgrp_name
   image_id = var.image_id
