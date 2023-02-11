@@ -32,10 +32,15 @@ module "security" {
 
 module "web" {
   source = "./modules/web"
-
+  
+  // Network Components
   vpc_id = module.network.main_vpc_id
+  public_subnet01_id = module.network.public_subnet01_id
+  public_subnet02_id = module.network.public_subnet02_id
   private_subnet01_id = module.network.private_subnet01_id
   private_subnet02_id = module.network.private_subnet02_id
+
+  // Web Components
   front_lb_name = var.alb_name
   front_lb_tgrp_name = var.alb_tgrp_name
   image_id = var.image_id
@@ -44,8 +49,8 @@ module "web" {
   web_desired_capacity = var.desired_number
   web_max_size = var.max_number
   web_min_size = var.min_number
+
+  // Security Groups
   client_servers_sg_id = module.security.client_servers_sg_id
   front_elb_sg_id = module.security.front_elb_sg_id
-  public_subnet01_id = module.network.public_subnet01_id
-  public_subnet02_id = module.network.public_subnet02_id
 }
