@@ -25,7 +25,20 @@ resource "aws_security_group" "client_servers_sg" {
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    security_groups = ["${aws_security_group.front_elb_sg.id}"]
+    security_groups = ["aws_security_group.front_elb_sg.id"]
+  }
+}
+
+resource "aws_security_group" "inernal_lb_sg" {
+  name = var.internal_lb_sg
+  description = "balance load from frontend to backend servers"
+  vpc_id = var.vpc_id
+
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    security_groups = ["aws_security_group.client_servers_sg.id"]
   }
 }
 

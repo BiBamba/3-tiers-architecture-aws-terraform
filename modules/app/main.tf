@@ -1,47 +1,48 @@
-/*resource "aws_lb" "internal_lb" {
-  name = var.internal_lb
+resource "aws_lb" "internal_lb" {
+  name = var.internal_lb_name
   internal = true
-  load_balancer_type = "network"
-  subnets = ["aws_subnet.private-subnet01.id", "aws_subnet.pribate-subnet02.id"]
+  load_balancer_type = "application"
+  security_groups = ["${var.internal_lb_sg_id}"]
+  subnets = ["${var.private_subnet01_id}", "${var.private_subnet02_id}"]
   ip_address_type = "ip4"
 }
 
-resource "aws_lb_target_group" "front_lb_tgrp" {
-  name = var.front_lb_tgrp
+resource "aws_lb_target_group" "internal_lb_targetgroup" {
+  name = var.internal_lb_targetgroup_name
   target_type = "instance"
   port = "80"
   protocol = "HTTP"
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc_id
 }
 
-resource "aws_lb_listener " "front_lb_listener" {
-  load_balancer_arn = aws_lb.front_lb.arn
+resource "aws_lb_listener " "internal_lb_listener" {
+  load_balancer_arn = aws_lb.internal_lb.arn
   port = 80
   protocol = "HTTP"
 
   default_action {
     type = "forward"
-    target_group_arn = aws_lb_target_group.front_lb_tgrp.arn
+    target_group_arn = aws_lb_target_group.internal_lb_targetgroup.arn
   }
 }
 
-resource "aws_launch_template" "web_lt" {
-  name_prefix = var.web_lt_name_prefix
-  image_id = var.image_id
-  instance_type = var.instance_type
-  vpc_security_group_ids = ["${var.web_lt_sg_id}"]
+resource "aws_launch_template" "app_servers_launch_template" {
+  name = var.app_launch_template_name
+  image_id = var.app_servers_image_id
+  instance_type = var.app_servers_instance_type
+  vpc_security_group_ids = ["${var.app_launch_template_sg_id}"]
 }
 
-resource "aws_autoscaling_group" "web_asg" {
+resource "aws_autoscaling_group" "app_servers_asg" {
   availability_zones = var.web_availabily_zones
-  desired_capacity = var.web_desired_capacity
-  max_size = var.web_max_size
-  min_size = var.web_min_size
+  desired_capacity = var.app_servers_desired_capacity
+  max_size = var.app_servers_max_size
+  min_size = var.app_servers_min_size
 
   launch_template {
-    id = aws_launch_template.web_lt.id
+    id = aws_launch_template.app_servers_launch_template.id
     version = "$Latest"
   }
 
-  target_group_arns = ["aws_lb_target_group.front_lb_tgrp.arn"]
-}*/
+  target_group_arns = ["aws_lb_target_group.internal_lb.arn"]
+}
