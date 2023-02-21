@@ -3,7 +3,7 @@ resource "aws_lb" "front_lb" {
   internal = false
   load_balancer_type = "application"
   security_groups = ["${var.front_elb_sg_id}"]
-  subnets = ["${var.public_subnet01_id}", "${var.public_subnet02_id}"]
+  subnets = [var.public_subnet01_id, var.public_subnet02_id]
   ip_address_type = "ipv4"
 }
 
@@ -45,7 +45,7 @@ resource "aws_autoscaling_group" "web_asg" {
     version = "$Latest"
   }
 
-  vpc_zone_identifier = ["${var.private_subnet01_id}", "${var.private_subnet02_id}"]
+  vpc_zone_identifier = ["var.private_subnet01_id", "var.private_subnet02_id"]
 
   target_group_arns = [aws_lb_target_group.front_lb_tgrp.arn]
 }

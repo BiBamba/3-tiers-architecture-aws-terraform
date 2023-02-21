@@ -25,12 +25,12 @@ resource "aws_security_group" "client_servers_sg" {
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    security_groups = ["aws_security_group.front_elb_sg.id"]
+    security_groups = [aws_security_group.front_elb_sg.id]
   }
 }
 
 resource "aws_security_group" "inernal_lb_sg" {
-  name = var.internal_lb_sg
+  name = var.internal_lb_sg_name
   description = "balance load from frontend to backend servers"
   vpc_id = var.vpc_id
 
@@ -38,7 +38,19 @@ resource "aws_security_group" "inernal_lb_sg" {
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    security_groups = ["aws_security_group.client_servers_sg.id"]
+    security_groups = [aws_security_group.client_servers_sg.id]
+  }
+}
+
+resource "aws_security_group" "app_launch_template_sg" {
+  name = var.app_launch_template_sg_name
+  vpc_id = var.vpc_id
+
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    security_groups = [aws_security_group.inernal_lb_sg.id]
   }
 }
 

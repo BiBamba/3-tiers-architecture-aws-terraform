@@ -2,9 +2,9 @@ resource "aws_lb" "internal_lb" {
   name = var.internal_lb_name
   internal = true
   load_balancer_type = "application"
-  security_groups = ["${var.internal_lb_sg_id}"]
-  subnets = ["${var.private_subnet01_id}", "${var.private_subnet02_id}"]
-  ip_address_type = "ip4"
+  security_groups = [var.internal_lb_sg_id]
+  subnets = ["var.private_subnet01_id", "var.private_subnet02_id"]
+  ip_address_type = "ipv4"
 }
 
 resource "aws_lb_target_group" "internal_lb_targetgroup" {
@@ -15,7 +15,7 @@ resource "aws_lb_target_group" "internal_lb_targetgroup" {
   vpc_id = var.vpc_id
 }
 
-resource "aws_lb_listener " "internal_lb_listener" {
+resource "aws_lb_listener" "internal_lb_listener" {
   load_balancer_arn = aws_lb.internal_lb.arn
   port = 80
   protocol = "HTTP"
@@ -34,7 +34,7 @@ resource "aws_launch_template" "app_servers_launch_template" {
 }
 
 resource "aws_autoscaling_group" "app_servers_asg" {
-  availability_zones = var.web_availabily_zones
+  //availability_zones = var.app_availability_zones
   desired_capacity = var.app_servers_desired_capacity
   max_size = var.app_servers_max_size
   min_size = var.app_servers_min_size
